@@ -1,36 +1,76 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import "./Form.css";
+import { Form, Input, Button } from 'antd';
+import {StyledImgWrap, StyledButtonWrap} from "./StyledForm";
 
-export const Form = ({data = [], onSubmit}) => {
+export const FormComponent = ({data = [], onSubmit}) => {
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
 
     return (
-        <form className="row g-3 align-items-center" onSubmit={(e) => onSubmit(e)}>
-            {data.avatar && <div><img className="rounded mx-auto d-block" src={data.avatar} alt="photo"/></div>}
-            <label for="avatar" className="form-label">
-                Photo
-            </label>
-            <input name='avatar' className="form-control" id="avatar" type="text" defaultValue={data.avatar}/>
-            <label for="name" className="form-label">
-                Name
-            </label>
-            <input  name='first_name' className="form-control" id="name" type='text' defaultValue={data.first_name}/>
-            <label for="surname" className="form-label">
-                Surname
-            </label>
-            <input name='last_name' className="form-control" id="surname" type='text' defaultValue={data.last_name}/>
-            <label for="email" className="form-label">
-                E-mail
-            </label>
-            <input name='email' className="form-control" id="email" type='text' defaultValue={data.email}/>
-            <div className="add-btn-wrap">
-                <button className="btn btn-primary">
-                    Отправить
-                </button>
-                <button className="btn btn-primary" >
-                    <Link to="/users">Back to users list</Link>
-                </button>
-            </div>
-        </form>
+        <>
+            {data.avatar && <StyledImgWrap><img src={data.avatar} alt="photo"/></StyledImgWrap>}
+            <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                initialValues={{ avatar: data.avatar,
+                                first_name: data.first_name,
+                                last_name: data.last_name,
+                                email:data.email}}
+                onFinish={onSubmit}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+            >
+                <Form.Item
+                    label="Photo"
+                    name="avatar"
+                    value="sdasad"
+                    rules={[{ required: true, message: 'Please input your link a photo!' }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Username"
+                    name="first_name"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="User surname"
+                    name="last_name"
+                    rules={[{ required: true, message: 'Please input your surname!' }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" htmlType="submit">
+                        Отправить
+                    </Button>
+                </Form.Item>
+            </Form>
+            <StyledButtonWrap >
+                <Button href="/users" type="primary">
+                    Back to users list
+                </Button>
+            </StyledButtonWrap>
+        </>
+
     )
 }

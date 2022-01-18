@@ -1,7 +1,11 @@
 import React from "react";
 import {Link, useParams} from "react-router-dom";
 import {userProfileAPI} from "../services/UserProfileService";
-import "./UserPage.css";
+import { Button } from 'antd';
+import {StyledImg, StyledUserPageWrap, StyledTextWrap, StyledUserBtnWrap} from "./StyledUserPage";
+
+
+
 
 export const UserPage = () => {
 
@@ -23,22 +27,26 @@ export const UserPage = () => {
                 { error && <h2>Произошла ошибка</h2> }
                 {data && (
                     <div>
-                        <div className="d-flex justify-content-between">
-                            <img src={user.avatar} alt="photo"/>
-                            <div className="row">
+                        <StyledUserPageWrap className="d-flex justify-content-between">
+                            <StyledImg src={user.avatar} alt="photo"/>
+                            <StyledTextWrap>
                                 <span className="user-page-name">Name: {user.first_name}</span>
                                 <span className="user-page-surname">Surname: {user.last_name}</span>
                                 <span className="user-page-email">Email: {user.email}</span>
+                            </StyledTextWrap>
+                        </StyledUserPageWrap>
+                        <StyledUserBtnWrap>
+                            <div>
+                                <Button type="primary">
+                                    <Link to={`/users/change/${params.id}`}>Change user</Link>
+                                </Button>
                             </div>
-                        </div>
-                        <div className="user-page-btn-wrap">
-                            <button className="btn btn-primary">
-                                <Link to={`/users/change/${params.id}`}>Change user</Link>
-                            </button>
-                            <button className="btn btn-primary">
-                                <Link to='/users'>Back to users list</Link>
-                            </button>
-                        </div>
+                            <div>
+                                <Button type="primary">
+                                    <Link to='/users'>Back to users list</Link>
+                                </Button>
+                            </div>
+                        </StyledUserBtnWrap>
                     </div>
                 )}
         </div>
